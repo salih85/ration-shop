@@ -10,14 +10,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('static'));
 app.use(cookieParser());
+const { onlyAdmin } = require('./middlewears/auth');
 
 const connectDB = require('./config/db');
 
 const admin = require('./router/Admin');
-const login = require('./router/auth');
-app.use('/', admin);
-app.use('/', login);
-
+const auth = require('./router/auth');
+const rationItemAdmin = require('./router/RationItemAdmin');
+app.use('/admin', rationItemAdmin);
+app.use('/', auth);
+app.use('/admin', onlyAdmin, admin);
 
 
 const port = process.env.PORT || 3000;

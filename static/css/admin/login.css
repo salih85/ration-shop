@@ -1,0 +1,84 @@
+body {
+  background: linear-gradient(135deg, #f4f7fb, #e9eff8);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-container {
+  min-height: 100vh;
+}
+
+.login-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  padding: 35px 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.login-card h3 {
+  font-weight: 600;
+  color: #1f3c88;
+}
+
+
+.form-group label {
+  font-weight: 500;
+  color: #555;
+}
+
+.form-control {
+  height: 45px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+  border-color: #1f3c88;
+  box-shadow: 0 0 0 0.15rem rgba(31, 60, 136, 0.25);
+}
+
+/* Login Button */
+.btn-primary {
+  background: #1f3c88;
+  border: none;
+  height: 45px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: #162e66;
+}
+
+.signup {
+  display: block;
+  margin-top: 15px;
+  text-align: center;
+  color: #198754;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup:hover {
+  color: #146c43;
+  text-decoration: underline;
+}
+
+
+.alert {
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

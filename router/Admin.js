@@ -1,10 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const { adminDashboard, createuser } = require('../controllers/Admin');
+const {adminDashboard,addUserPage,createuser,  familyPage,addFamilyMember,entitlementsPage,purchaseItems,resetPurchases} = require('../controllers/Admin');
 
-router.get('/', adminDashboard)
-      .post('/', createuser)
+router.get('/', adminDashboard);
+router.get('/add-user', addUserPage);
+router.post('/add-user', createuser);
+router.get('/items', (req, res) => res.render('admin/items'));
+router.get('/items/APL', (req, res) => res.render('admin/items'));
+router.get('/items/BPL', (req, res) => res.render('admin/items'));
+router.get('/items/AAY', (req, res) => res.render('admin/items'));
+router.get('/items/PHH', (req, res) => res.render('admin/items'));
+router.get('/items/add', (req, res) => res.render('admin/items'));
 
-module.exports=router
+router.get('/family/:id', familyPage);
+router.post('/family/:id', addFamilyMember);
 
+router.get('/entitlements/:id', entitlementsPage);
+router.post('/purchase/:userId/:itemName', purchaseItems);
+router.post('/reset-purchases/:userId', resetPurchases);
 
+module.exports = router;
