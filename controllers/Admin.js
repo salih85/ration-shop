@@ -3,12 +3,13 @@ const FamilyMember = require('../models/FamilyMember');
 const RationItem = require('../models/RationItem');
 const PurchaseHistory = require('../models/PurchaseHistory');
 
-exports.adminDashboard = async (req, res) => {
+exports.adminUsers = async (req, res) => {
   try {
     const users = await Ration.find().sort({ createdAt: -1 });
     return res.render('users', { users });
   } catch (e) {
     console.error(e);
+    return res.redirect('/admin');
   }
 };
 
@@ -163,5 +164,31 @@ exports.resetPurchases = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.redirect('/admin');
+  }
+};
+
+exports.adminDashboard = async (req, res) => {
+  try {
+    const totalUsers = await Ration.countDocuments();
+    const totalItems = await RationItem.countDocuments();
+    const totalPurchases = await PurchaseHistory.countDocuments();
+
+    const revenueAgg = await PurchaseHistory.aggregate([
+      { $group: { _id: null, total: { $sum: '$price' } } }
+    ]);
+    const totalRevenue = revenueAgg && revenueAgg[0] ? revenueAgg[0].total : 0;
+
+    const recentUsers = await Ration.find().sort({ createdAt: -1 }).limit(10);
+
+    return res.render('admin/home', {
+      totalUsers,
+      totalItems,
+      totalPurchases,
+      totalRevenue,
+      recentUsers
+    });
+  } catch (e) {
+    console.error(e);
+    return res.redirect('/admin');
   }
 };

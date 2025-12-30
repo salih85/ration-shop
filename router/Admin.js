@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {adminDashboard,addUserPage,createuser,  familyPage,addFamilyMember,entitlementsPage,purchaseItems,resetPurchases} = require('../controllers/Admin');
+const {adminDashboard, adminUsers, addUserPage,createuser,  familyPage,addFamilyMember,entitlementsPage,purchaseItems,resetPurchases} = require('../controllers/Admin');
 
 router.get('/', adminDashboard);
+router.get('/users', adminUsers);
 router.get('/add-user', addUserPage);
 router.post('/add-user', createuser);
 router.get('/items', (req, res) => res.render('admin/items'));

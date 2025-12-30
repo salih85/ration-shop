@@ -45,7 +45,7 @@ exports.Adminlogin = async (req, res) => {
     const foundUser = await Admin.findOne({ username });
     if (!foundUser) {
       return res.render('admin/login', {
-        msg: 'No user found — please register',
+        msg: 'No user found — please signup',
         admin: false
       });
     }
