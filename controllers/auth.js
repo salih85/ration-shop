@@ -12,8 +12,6 @@ exports.AdminsignupPage =(req,res)=>{
 exports.Adminsignup = async (req, res) => {
   try {
     const { username, password } = req.body;
-
-    // create and save admin properly
     const user = new Admin({
       id: `${Date.now()}`,
       username,

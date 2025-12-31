@@ -43,7 +43,7 @@ exports.createuser = async (req, res) => {
       mobile
     });
 
-    return res.redirect('/admin');
+    return res.redirect('/admin/users');
   } catch (e) {
     console.log(e);
   }
@@ -160,7 +160,7 @@ exports.resetPurchases = async (req, res) => {
   try {
     const { userId } = req.params;
     await PurchaseHistory.deleteMany({ rationId: userId });
-    res.redirect('/admin');
+    res.redirect('/admin/users');
   } catch (err) {
     console.error(err);
     res.redirect('/admin');
@@ -178,14 +178,12 @@ exports.adminDashboard = async (req, res) => {
     ]);
     const totalRevenue = revenueAgg && revenueAgg[0] ? revenueAgg[0].total : 0;
 
-    const recentUsers = await Ration.find().sort({ createdAt: -1 }).limit(10);
 
     return res.render('admin/home', {
       totalUsers,
       totalItems,
       totalPurchases,
       totalRevenue,
-      recentUsers
     });
   } catch (e) {
     console.error(e);
