@@ -14,7 +14,7 @@ exports.adminUsers = async (req, res) => {
 };
 
 exports.addUserPage = (req, res) => {
-  res.render('addUser');
+  res.render('adduser');
 };
 
 exports.createuser = async (req, res) => {
