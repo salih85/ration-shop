@@ -13,6 +13,7 @@ exports.adminUsers = async (req, res) => {
   }
 };
 
+
 exports.addUserPage = (req, res) => {
   res.render('adduser');
 };
