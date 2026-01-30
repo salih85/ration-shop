@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ration Entitlements</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -13,150 +15,168 @@
 
         .card {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
 
         .table th {
             background-color: #343a40;
             color: white;
+            white-space: nowrap;
+        }
+
+        .table td {
+            white-space: nowrap;
         }
 
         .card-type-badge {
             font-size: 14px;
             padding: 5px 10px;
         }
+
+        /* ✅ MOBILE FIX */
+        @media (max-width: 576px) {
+            h2 {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+
+            .btn-lg {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <%- include('partials/navbar') %>
+<%- include('partials/navbar') %>
 
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="mb-4">
-                        <i class="bi bi-bookmark"></i> Ration Entitlements
-                    </h2>
-                    <div class="card p-4 mb-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5>Cardholder: <strong>
-                                        <%= user.headName %>
-                                    </strong></h5>
-                                <p class="mb-1"><strong>Card Number:</strong>
-                                    <%= user.cardNumber %>
-                                </p>
-                                <p class="mb-1"><strong>Card Type:</strong>
-                                    <span class="badge bg-primary card-type-badge">
-                                        <%= user.cardType %>
-                                    </span>
-                                </p>
-                                <p class="mb-0"><strong>Address:</strong>
-                                    <%= user.ward %>, <%= user.panchayat %>, <%= user.district %>
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <h5>Family Information</h5>
-                                <p class="mb-1"><strong>Family Members:</strong>
-                                    <%= members.length + 1 %> (Head + <%= members.length %>)
-                                </p>
-                                <p class="mb-0"><strong>Mobile:</strong>
-                                    <%= user.mobile %>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+<div class="container container-lg mt-4 mb-5">
 
+    <h2 class="mb-4">
+        <i class="bi bi-bookmark"></i> Ration Entitlements
+    </h2>
 
-                    <div class="card p-4">
-                        <h5 class="mb-3">Items Entitled</h5>
+    <!-- CARDHOLDER INFO -->
+    <div class="card p-3 p-md-4 mb-4">
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <h6>Cardholder</h6>
+                <p class="mb-1"><strong>Name:</strong> <%= user.headName %></p>
+                <p class="mb-1"><strong>Card No:</strong> <%= user.cardNumber %></p>
+                <p class="mb-1">
+                    <strong>Type:</strong>
+                    <span class="badge bg-primary card-type-badge">
+                        <%= user.cardType %>
+                    </span>
+                </p>
+                <p class="mb-0">
+                    <strong>Address:</strong>
+                    <%= user.ward %>, <%= user.panchayat %>, <%= user.district %>
+                </p>
+            </div>
 
-                        <% if (items && items.length> 0) { %>
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Item Name</th>
-                                        <th>Monthly Ration</th>
-                                        <th>Unit Price (₹)</th>
-                                        <th>Total Price (₹)</th>
-                                        <th>Collect</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% let totalAmount=0; %>
-                                        <% items.forEach((item, index)=> { %>
-                                            <% totalAmount +=item.totalPrice; %>
-                                                <tr <% if (item.isPurchased) { %>style="background-color: #e8f5e9;"<% }
-                                                        %>>
-                                                        <td>
-                                                            <%= index + 1 %>
-                                                        </td>
-                                                        <td>
-                                                            <strong>
-                                                                <%= item.itemName %>
-                                                            </strong>
-                                                            <% if (item.isPurchased) { %>
-                                                                <span class="badge bg-success ms-2">✓ Purchased</span>
-                                                                <% } %>
-                                                        </td>
-                                                        <td><strong>
-                                                                <%= item.quantityPerMonth %> kg
-                                                            </strong></td>
-                                                        <td>₹ <%= item.price.toFixed(2) %>
-                                                        </td>
-                                                        <td><strong>₹ <%= item.totalPrice.toFixed(2) %></strong></td>
-                                                        <td>
-                                                            <% if (item.isPurchased) { %>
-                                                                <button type="button" class="btn btn-sm btn-success"
-                                                                    disabled>
-                                                                    ✓ Purchased
-                                                                </button>
-                                                                <% } else { %>
-                                                                    <form method="POST"
-                                                                        action="/admin/purchase/<%= user._id %>/<%= item.itemName %>"
-                                                                        style="display: inline;">
-                                                                        <button type="submit"
-                                                                            class="btn btn-sm btn-primary">
-                                                                            Collect
-                                                                        </button>
-                                                                    </form>
-                                                                    <% } %>
-                                                        </td>
-                                                </tr>
-                                                <% }) %>
-                                </tbody>
-                                <tfoot class="table-dark">
-                                    <tr>
-                                        <th colspan="4" class="text-right">GRAND TOTAL:</th>
-                                        <th><strong>₹ <%= totalAmount.toFixed(2) %></strong></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-
-                            <div class="alert alert-info mt-3">
-                                <strong>Total Amount for <%= members.length + 1 %> members:</strong> ₹ <strong>
-                                    <%= totalAmount.toFixed(2) %>
-                                </strong>
-                            </div>
-
-                            <form method="POST" action="/admin/purchase/<%= user._id %>/all">
-                                <button type="submit" class="btn btn-lg btn-success mt-2">
-                                    <i class="bi bi-cart-check"></i> Collect All Items
-                                </button>
-                            </form>
-                            <% } else { %>
-                                <div class="alert alert-warning">No items found for this card type.</div>
-                                <% } %>
-                    </div>
-
-                    <a href="/admin/users" class="btn btn-secondary mt-3">Back to Users</a>
-                </div>
+            <div class="col-12 col-md-6">
+                <h6>Family Info</h6>
+                <p class="mb-1">
+                    <strong>Members:</strong>
+                    <%= members.length + 1 %> (Head + <%= members.length %>)
+                </p>
+                <p class="mb-0"><strong>Mobile:</strong> <%= user.mobile %></p>
             </div>
         </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+ 
+    <div class="card p-3 p-md-4">
+
+        <h5 class="mb-3">Items Entitled</h5>
+
+        <% if (items && items.length > 0) { %>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Qty / Month</th>
+                        <th>Unit ₹</th>
+                        <th>Total ₹</th>
+                        <th>Collect</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% let totalAmount = 0; %>
+                    <% items.forEach((item, index) => { %>
+                        <% totalAmount += item.totalPrice; %>
+
+                        <tr <% if (item.isPurchased) { %>class="table-success"<% } %>>
+                            <td><%= index + 1 %></td>
+
+                            <td>
+                                <strong><%= item.itemName %></strong>
+                                <% if (item.isPurchased) { %>
+                                    <span class="badge bg-success ms-2">Purchased</span>
+                                <% } %>
+                            </td>
+
+                            <td><%= item.quantityPerMonth %> kg</td>
+                            <td>₹ <%= item.price.toFixed(2) %></td>
+                            <td><strong>₹ <%= item.totalPrice.toFixed(2) %></strong></td>
+
+                            <td>
+                                <% if (item.isPurchased) { %>
+                                    <button class="btn btn-sm btn-success w-100" disabled>
+                                        ✓ Done
+                                    </button>
+                                <% } else { %>
+                                    <form method="POST"
+                                        action="/admin/purchase/<%= user._id %>/<%= item.itemName %>">
+                                        <button class="btn btn-sm btn-primary w-100">
+                                            Collect
+                                        </button>
+                                    </form>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+
+                <tfoot class="table-dark">
+                    <tr>
+                        <th colspan="4" class="text-end">GRAND TOTAL</th>
+                        <th>₹ <%= totalAmount.toFixed(2) %></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="alert alert-info mt-3">
+            <strong>Total for <%= members.length + 1 %> members:</strong>
+            ₹ <strong><%= totalAmount.toFixed(2) %></strong>
+        </div>
+
+        <form method="POST" action="/admin/purchase/<%= user._id %>/all">
+            <button type="submit" class="btn btn-success btn-lg mt-2">
+                <i class="bi bi-cart-check"></i> Collect All Items
+            </button>
+        </form>
+
+        <% } else { %>
+            <div class="alert alert-warning">No items found for this card type.</div>
+        <% } %>
+
+    </div>
+
+    <a href="/admin/users" class="btn btn-secondary mt-3 w-100 w-md-auto">
+        Back to Users
+    </a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

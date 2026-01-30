@@ -4,53 +4,108 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Ration User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Extra mobile polish */
+        @media (max-width: 576px) {
+            h3 {
+                font-size: 1.3rem;
+                text-align: center;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
     <%- include('partials/navbar') %>
 
-        <div class="container mt-4">
-            <h3>Add Ration Card Holder</h3>
+    <div class="container container-sm mt-4 mb-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
 
-            <form method="POST" action="/admin/add-user">
+                <h3 class="mb-4">Add Ration Card Holder</h3>
 
-                <input type="text" name="headName" class="form-control mb-2" placeholder="Head of Family Name" required>
+                <form method="POST" action="/admin/add-user">
 
-                <input type="text" name="cardNumber" class="form-control mb-2" placeholder="Ration Card Number"
-                    required>
+                    <div class="mb-3">
+                        <input type="text" name="headName" class="form-control"
+                            placeholder="Head of Family Name" required>
+                    </div>
 
-                <select name="cardType" class="form-select mb-2" required>
-                    <option value="">Select Card Type</option>
-                    <option value="APL">APL</option>
-                    <option value="BPL">BPL</option>
-                    <option value="AAY">AAY</option>
-                    <option value="PHH">PHH</option>
-                </select>
+                    <div class="mb-3">
+                        <input type="text" name="cardNumber" class="form-control"
+                            placeholder="Ration Card Number" required>
+                    </div>
 
-                <input type="text" name="houseNumber" class="form-control mb-2" placeholder="House Number" required>
+                    <div class="mb-3">
+                        <select name="cardType" class="form-select" required>
+                            <option value="">Select Card Type</option>
+                            <option value="APL">APL</option>
+                            <option value="BPL">BPL</option>
+                            <option value="AAY">AAY</option>
+                            <option value="PHH">PHH</option>
+                        </select>
+                    </div>
 
-                <input type="text" name="ward" class="form-control mb-2" placeholder="Ward Number" required>
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                            <input type="text" name="houseNumber" class="form-control"
+                                placeholder="House Number" required>
+                        </div>
 
-                <input type="text" name="panchayat" class="form-control mb-2" placeholder="Panchayat / Municipality"
-                    required>
+                        <div class="col-12 col-md-6 mb-3">
+                            <input type="text" name="ward" class="form-control"
+                                placeholder="Ward Number" required>
+                        </div>
+                    </div>
 
-                <input type="text" name="district" class="form-control mb-2" placeholder="District" required>
+                    <div class="mb-3">
+                        <input type="text" name="panchayat" class="form-control"
+                            placeholder="Panchayat / Municipality" required>
+                    </div>
 
-                <select name="gender" class="form-select mb-2" required>
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
+                    <div class="mb-3">
+                        <input type="text" name="district" class="form-control"
+                            placeholder="District" required>
+                    </div>
 
-                <input type="text" name="mobile" class="form-control mb-3" placeholder="Mobile Number" required>
+                    <div class="mb-3">
+                        <select name="gender" class="form-select" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
 
-                <button class="btn btn-primary">Add User</button>
-                <a href="/admin/users" class="btn btn-secondary">View Users</a>
-            </form>
+                    <div class="mb-4">
+                        <input type="tel" name="mobile" class="form-control"
+                            placeholder="Mobile Number" required>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-12 col-md-6">
+                            <button class="btn btn-primary">Add User</button>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <a href="/admin/users" class="btn btn-secondary">View Users</a>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
         </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

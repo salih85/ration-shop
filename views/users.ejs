@@ -3,225 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <title>Ration Users List</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        h3 {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .table thead th {
+            background-color: #0d6efd;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+
+        .btn-info {
+            background-color: #0dcaf0;
+            border: none;
+            color: #000;
+        }
+
+        .btn-success {
+            border: none;
+        }
+
+        .btn-warning {
+            border: none;
+            color: white;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .alert-info {
+            background-color: #e7f5ff;
+            border-left: 4px solid #0d6efd;
+        }
+
+        /* ✅ MOBILE FIXES */
+        @media (max-width: 576px) {
+            h3 {
+                font-size: 1.3rem;
+                text-align: center;
+            }
+
+            .action-btns {
+                display: grid;
+                gap: 6px;
+            }
+        }
+    </style>
 </head>
-<style>
-  body {
-    background-color: #f4f6f9;
-  }
-
-  h3 {
-    font-weight: 600;
-    color: #212529;
-  }
-
-  .table thead th {
-    background-color: #0d6efd;
-    color: white;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .table tbody td {
-    vertical-align: middle;
-  }
-
-  .badge {
-    font-size: 0.85rem;
-    padding: 6px 10px;
-    border-radius: 6px;
-  }
-
-  .btn-info {
-    background-color: #0dcaf0;
-    border: none;
-    color: #000;
-  }
-
-  .btn-info:hover {
-    background-color: #31d2f2;
-  }
-
-  .btn-success {
-    background-color: #198754;
-    border: none;
-  }
-
-  .btn-warning {
-    background-color: #fd7e14;
-    border: none;
-    color: white;
-  }
-
-  .btn-warning:hover {
-    background-color: #e8590c;
-  }
-
-  .modal-header.bg-info {
-    background-color: #0dcaf0 !important;
-  }
-
-  .modal-header.bg-dark {
-    background-color: #212529 !important;
-  }
-
-  .modal-content {
-    border-radius: 10px;
-  }
-
-  .alert-info {
-    background-color: #e7f5ff;
-    border-left: 4px solid #0d6efd;
-  }
-</style>
 
 <body>
 
 <%- include('partials/navbar') %>
 
-<div class="container mt-4">
-    <h3>Ration Card Holders</h3>
+<div class="container-fluid container-lg mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+        <h3>Ration Card Holders</h3>
 
-    <a href="/admin/add-user" class="btn btn-success mb-3">
-        Add New User
-    </a>
+        <a href="/admin/add-user" class="btn btn-success mt-2 mt-md-0">
+            Add New User
+        </a>
+    </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Head Name</th>
-                <th>Card No</th>
-                <th>Card Type</th>
-                <th>Gender</th>
-                <th>Mobile</th>
-                 <th>Details</th>
-                <th>Family</th>
-               <th>Distribution</th>
-            </tr>
-        </thead>
-        <tbody>
-        <% users.forEach(item => { %>
-            <tr>
-                <td><%= item.headName %></td>
-                <td><%= item.cardNumber %></td>
+  
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle text-center">
+            <thead>
+                <tr>
+                    <th>Head Name</th>
+                    <th>Card No</th>
+                    <th>Card Type</th>
+                    <th>Gender</th>
+                    <th>Mobile</th>
+                    <th>Details</th>
+                    <th>Family</th>
+                    <th>Distribution</th>
+                </tr>
+            </thead>
 
-                <td>
-                <% if (item.cardType === 'APL') { %>
-                    <span class="badge bg-primary">APL</span>
-                <% } else if (item.cardType === 'BPL') { %>
-                    <span class="badge bg-danger">BPL</span>
-                <% } else if (item.cardType === 'AAY') { %>
-                    <span class="badge bg-warning text-dark">AAY</span>
-                <% } else if (item.cardType === 'PHH') { %>
-                    <span class="badge bg-success">PHH</span>
-                <% } else { %>
-                    <span class="badge bg-secondary"><%= item.cardType %></span>
-                <% } %>
-                </td>
-                <td><%= item.gender %></td>
-                <td><%= item.mobile %></td>
-                  <td>
-                    <button class="btn btn-sm btn-info"
-                        data-bs-toggle="modal"
-                        data-bs-target="#userModal-<%= item._id %>">
-                        View
-                    </button>
-                </td>
+            <tbody>
+            <% users.forEach(item => { %>
+                <tr>
+                    <td><%= item.headName %></td>
+                    <td><%= item.cardNumber %></td>
 
-                <td>
-                    <a href="/admin/family/<%= item._id %>" class="btn btn-sm btn-primary">
-                        Members
-                    </a>
-                </td>
+                    <td>
+                        <% if (item.cardType === 'APL') { %>
+                            <span class="badge bg-primary">APL</span>
+                        <% } else if (item.cardType === 'BPL') { %>
+                            <span class="badge bg-danger">BPL</span>
+                        <% } else if (item.cardType === 'AAY') { %>
+                            <span class="badge bg-warning text-dark">AAY</span>
+                        <% } else if (item.cardType === 'PHH') { %>
+                            <span class="badge bg-success">PHH</span>
+                        <% } %>
+                    </td>
 
-                <td>
-                    <a href="/admin/entitlements/<%= item._id %>" class="btn btn-sm btn-success">
-                         Collect Ration
-                    </a>
-                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#resetModal-<%= item._id %>">
-                        Reset
-                    </button>
-                </td>
-            </tr>
+                    <td><%= item.gender %></td>
+                    <td><%= item.mobile %></td>
 
-            <div class="modal fade" id="resetModal-<%= item._id %>" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info text-white">
-                            <h5 class="modal-title">
-                                <i class="bi bi-arrow-clockwise"></i> Monthly Reset
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="lead"><strong><%= item.headName %></strong></p>
-                            <p>This will reset the monthly ration collection for <strong><%= item.cardNumber %></strong> (<%= item.cardType %> Card).</p>
-                            <div class="alert alert-info">
-                                <strong>Monthly Booking Reset:</strong> All collected items will be cleared, and the cardholder can collect their monthly ration again starting from the next period.
+                    <td>
+                        <button class="btn btn-sm btn-info"
+                            data-bs-toggle="modal"
+                            data-bs-target="#userModal-<%= item._id %>">
+                            View
+                        </button>
+                    </td>
+
+                    <td>
+                        <a href="/admin/family/<%= item._id %>" class="btn btn-sm btn-primary">
+                            Members
+                        </a>
+                    </td>
+
+                    <td class="action-btns">
+                        <a href="/admin/entitlements/<%= item._id %>" class="btn btn-sm btn-success">
+                            Collect
+                        </a>
+                        <button type="button" class="btn btn-sm btn-warning"
+                            data-bs-toggle="modal"
+                            data-bs-target="#resetModal-<%= item._id %>">
+                            Reset
+                        </button>
+                    </td>
+                </tr>
+
+                <div class="modal fade" id="resetModal-<%= item._id %>" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info text-white">
+                                <h5 class="modal-title">Monthly Reset</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                             </div>
-                            <p class="text-muted small">This action is typically done at the beginning of each month to allow cardholders to book their new monthly entitlements.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <form method="POST" action="/admin/reset-purchases/<%= item._id %>" style="display: inline;">
-                                <button type="submit" class="btn btn-info text-white">Confirm Monthly Reset</button>
-                            </form>
+                            <div class="modal-body">
+                                <p><strong><%= item.headName %></strong></p>
+                                <p>This will reset monthly ration for <strong><%= item.cardNumber %></strong>.</p>
+                                <div class="alert alert-info">
+                                    Monthly booking will be cleared.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <form method="POST" action="/admin/reset-purchases/<%= item._id %>">
+                                    <button type="submit" class="btn btn-info text-white">
+                                        Confirm Reset
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal fade" id="userModal-<%= item._id %>" tabindex="-1">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
+                <div class="modal fade" id="userModal-<%= item._id %>" tabindex="-1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-dark text-white">
+                                <h5 class="modal-title">
+                                    Ration Card – <%= item.headName %>
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
 
-                        <div class="modal-header bg-dark text-white">
-                            <h5 class="modal-title">
-                                Ration Card Details – <%= item.headName %>
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
+                            <div class="modal-body">
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-6">
+                                        <p><strong>Card:</strong> <%= item.cardNumber %></p>
+                                        <p><strong>Type:</strong> <%= item.cardType %></p>
+                                        <p><strong>Gender:</strong> <%= item.gender %></p>
+                                        <p><strong>Mobile:</strong> <%= item.mobile %></p>
+                                    </div>
 
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p><strong>Card Number:</strong> <%= item.cardNumber %></p>
-                                    <p><strong>Card Type:</strong> <%= item.cardType %></p>
-                                    <p><strong>Gender:</strong> <%= item.gender %></p>
-                                    <p><strong>Mobile:</strong> <%= item.mobile %></p>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <p><strong>House No:</strong> <%= item.houseNumber %></p>
-                                    <p><strong>Ward:</strong> <%= item.ward %></p>
-                                    <p><strong>Panchayat:</strong> <%= item.panchayat %></p>
-                                    <p><strong>District:</strong> <%= item.district %></p>
+                                    <div class="col-12 col-md-6">
+                                        <p><strong>House:</strong> <%= item.houseNumber %></p>
+                                        <p><strong>Ward:</strong> <%= item.ward %></p>
+                                        <p><strong>Panchayat:</strong> <%= item.panchayat %></p>
+                                        <p><strong>District:</strong> <%= item.district %></p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <hr>
-
-                            <div class="d-flex gap-2">
-                                <a href="/admin/family/<%= item._id %>" class="btn btn-primary btn-sm">
-                                    Family Members
-                                </a>
-                                <a href="/admin/entitlements/<%= item._id %>" class="btn btn-success btn-sm">
-                                    Monthly Supply
-                                </a>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
-
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-
                     </div>
                 </div>
-            </div>
 
-        <% }) %>
-        </tbody>
-    </table>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
