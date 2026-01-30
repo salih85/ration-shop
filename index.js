@@ -23,11 +23,7 @@ app.use('/admin', onlyAdmin, admin);
 
 
 const port = process.env.PORT || 3000;
-
-connectDB().then(() => {
-  app.listen(port, () => {
-    console.log("Server started at port", port);
-  });
-}).catch(err => {
-  console.error("DB connection failed", err);
+app.listen(port, () => {
+  console.log("server started at port",port);
+  connectDB();
 });
